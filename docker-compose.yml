@@ -1,0 +1,45 @@
+version: '2'
+
+services:
+  jenkins:
+    image: j_jenkins
+    ports:
+      - "8080:8080"
+  jira:
+    image: j_jira
+    ports:
+      - "8081:8080"
+  nexus:
+    image: j_nexus
+    ports:
+      - "8082:8081"
+  zabbix-db-storage:
+    image: busybox
+    volumes: 
+      - /var/lib/mysql
+  zabbix-db:
+    image: j_zabbixdb
+  zabbix:
+    image: j_zabbix
+    ports:
+      - "80:80"
+      - "10051:10051"
+    links: 
+      - zabbix-db:zabbx.db
+  tomcat:
+    image: j_tomcat
+    ports:
+      - "8084:8080"
+  postfix:
+    image: j_postfix
+    ports:
+      - "25:25"
+  urbancode:
+    image: j_urbancode
+    ports:
+      - "8443:8085"
+      - "7918:7918"
+      - "8090:8080"
+  puppet:
+    image: j_puppet
+    ports: 
